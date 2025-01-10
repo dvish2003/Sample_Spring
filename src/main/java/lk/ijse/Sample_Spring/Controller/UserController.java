@@ -5,6 +5,8 @@ import lk.ijse.Sample_Spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Author: vishmee
  * Date: 1/9/25
@@ -19,9 +21,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/getUser")
-    public  String getUser(){
-        return "Simple User";
+    @GetMapping("/getUsers")
+    public List<UserDto> getUser(){
+        return userService.getUsers();
     }
 
     @PostMapping("/saveUser")
@@ -30,12 +32,17 @@ public class UserController {
     }
 
     @PutMapping("/updateUser")
-    public  String updateUser(){
-        return "User Updated: ";
+    public  UserDto updateUser(@RequestBody UserDto  userDto){
+        return userService.updateUser(userDto);
     }
 
     @DeleteMapping("/deleteUser")
-    public  String deleteUser(){
-        return "User Deleted: ";
+    public boolean deleteUser(@RequestBody UserDto userDto){
+       return userService.deleteUser(userDto);
+    }
+
+    @GetMapping("/getUserById/{userID}")
+    public UserDto getUserById(@PathVariable String userID){
+        return userService.getUserById(userID);
     }
 }
